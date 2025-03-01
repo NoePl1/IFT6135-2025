@@ -77,9 +77,9 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     # Check for the device
-    if (args.device == "cuda") and not torch.cuda.is_available():
+    if (args.device == "mps") and not torch.backends.cuda.is_available():
         warnings.warn(
-            "CUDA is not available, make that your environment is "
+            "MPS is not available, make that your environment is "
             "running on GPU (e.g. in the Notebook Settings in Google Colab). "
             'Forcing device="cpu".'
         )
