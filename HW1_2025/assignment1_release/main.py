@@ -173,6 +173,18 @@ if __name__ == "__main__":
         valid_accs.append(acc)
         valid_times.append(wall_time)
 
+        # early stopping
+        if val_acc > best_val_acc:
+            best_val_acc = val_acc
+            patience_counter = 0  # Reset patience if performance improves
+        else:
+            patience_counter += 1  # Increment if no improvement
+
+        if patience_counter >= EARLY_STOPPING_PATIENCE:
+            print(
+                f"\n⏹️ Early Stopping Triggered at Epoch {epoch}. No improvement for {EARLY_STOPPING_PATIENCE} epochs.")
+            break  # Stop training loop
+
     test_loss, test_acc, test_time = evaluate(
         epoch, model, test_dataloader, args, mode="test"
     )
