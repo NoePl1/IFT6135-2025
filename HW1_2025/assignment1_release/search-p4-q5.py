@@ -21,7 +21,6 @@ results_file_path = "results/resnet18_random_search_results.json"
 if os.path.exists(results_file_path):
     with open(results_file_path, "r") as f:
         experiment_results = json.load(f)
-        print("✅ Loaded previous results.")
 
 # Perform Random Search
 for trial in range(num_runs):
@@ -65,10 +64,10 @@ for trial in range(num_runs):
     if validation_acc > best_validation_acc:
         best_validation_acc = validation_acc
         best_run = experiment_results[f"Trial {trial}"]
-        print(f"\n🏆 New Best Model Found! Validation Accuracy: {validation_acc:.3f}")
+        print(f"\nBest Model Validation Accuracy: {validation_acc:.3f}")
 
         # Save the best model configuration dynamically
-        with open("results/best_model.json", "w") as f:
+        with open("results/best_model_resnet18.json", "w") as f:
             json.dump(best_run, f, indent=4)
 
     # Save intermediate results after each run
