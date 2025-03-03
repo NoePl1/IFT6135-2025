@@ -74,8 +74,8 @@ def get_config_parser():
     misc.add_argument(
         "--device",
         type=str,
-        choices=["cpu", "cuda"],
-        default="cuda",
+        choices=["cpu", "cuda", "mps"],
+        default="mps",
         help="device to store tensors on (default: %(default)s).",
     )
     misc.add_argument(
