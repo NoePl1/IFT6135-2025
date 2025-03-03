@@ -1,3 +1,5 @@
+import math
+
 import torch
 import numpy as np
 import matplotlib.pyplot as plt
@@ -61,7 +63,11 @@ def cross_entropy_loss(logits: torch.Tensor, labels: torch.Tensor):
     :param labels: [batch_size]
     :return loss 
     """
-    raise NotImplementedError
+    batch_size = logits.shape[0]
+    probs = torch.exp(logits) / torch.exp(logits).sum(dim=1, keepdim=True)
+    right_probs = probs[torch.arange(batch_size), labels]
+    loss = torch.mean(-torch.log(right_probs))
+    return loss
 
 def compute_accuracy(logits: torch.Tensor, labels: torch.Tensor):
     """ Compute the accuracy of the batch """
