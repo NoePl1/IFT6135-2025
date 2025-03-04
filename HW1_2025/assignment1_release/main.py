@@ -168,22 +168,24 @@ if __name__ == "__main__":
         train_accs.append(acc)
         train_times.append(wall_time)
 
+        EARLY_STOPPING_PATIENCE = 10
+        best_acc = 0
+        patience_counter = 0
+
         loss, acc, wall_time = evaluate(epoch, model, valid_dataloader,args)
         valid_losses.append(loss)
         valid_accs.append(acc)
         valid_times.append(wall_time)
 
-        # early stopping
-        if val_acc > best_val_acc:
-            best_val_acc = val_acc
-            patience_counter = 0  # Reset patience if performance improves
+        if acc > best_acc:
+            best_acc = acc
+            patience_counter = 0
         else:
-            patience_counter += 1  # Increment if no improvement
+            patience_counter += 1
 
         if patience_counter >= EARLY_STOPPING_PATIENCE:
-            print(
-                f"\n⏹️ Early Stopping Triggered at Epoch {epoch}. No improvement for {EARLY_STOPPING_PATIENCE} epochs.")
-            break  # Stop training loop
+            print(f"\n Early stopping at epoch {epoch}.")
+            break
 
     test_loss, test_acc, test_time = evaluate(
         epoch, model, test_dataloader, args, mode="test"
